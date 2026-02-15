@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abbie Wear | Luxury Fashion House</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ===============================
+   COLORS & GLOBAL
+================================ */
+:root{
+  --cream:#f8f5f1;
+  --gold:#c6a75e;
+  --black:#111;
+  --white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Montserrat',sans-serif; background:var(--cream); color:var(--black); scroll-behavior:smooth;}
+
+/* ===============================
+   HEADER
+================================ */
+header{
+  position:fixed; width:100%; top:0; display:flex; justify-content:space-between; align-items:center;
+  padding:20px 10%; background:rgba(248, 231, 207, 0.95); backdrop-filter:blur(12px);
+  box-shadow:0 5px 20px rgba(116, 83, 35, 0.08); z-index:1000;
+}
+.logo{
+  display:flex; align-items:center; font-family:'Playfair Display',serif; font-size:35px; font-weight:1000; color:var(--gold);
+}
+.logo img{height:55px; width: 90px; margin-left:-130px}
+nav a{margin-left:50px; text-decoration:none; color:var(--black); font-weight:600; position:relative; justify-content:space-between;}
+nav a::after{content:''; position:absolute; left:0; bottom:-4px; width:0%; height:2px; background:var(--gold); transition:0.3s;}
+nav a:hover::after{width:100%;}
+
+/* ===============================
+   HERO
+================================ */
+.hero{
+  height:100vh; position:relative;
+  background:
+    linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+    url("https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1800&q=80") center/cover no-repeat;
+  display:flex; align-items:center; justify-content:center; text-align:center; padding:20px;
+  background-attachment:fixed;
+}
+.hero-content{color:white; max-width:800px; animation:fadeIn 1.2s ease both;}
+.hero h1{font-size:4rem; font-family:'Playfair Display',serif; letter-spacing:4px; margin-bottom:15px; text-shadow:2px 2px 6px rgba(0,0,0,0.4);}
+.hero p{font-size:1.5rem; letter-spacing:1.5px;}
+
+/* ===============================
+   FADE ANIMATION
+================================ */
+.fade{opacity:0; transform:translateY(40px); transition:1s ease;}
+.fade.active{opacity:1; transform:translateY(0);}
+
+/* ===============================
+   SECTIONS
+================================ */
+.section{padding:100px 10%;}
+.section-title{text-align:center;margin-bottom:60px;}
+.section-title h2{font-size:2.8rem; font-family:'Playfair Display',serif; color:var(--black); letter-spacing:2px;}
+
+/* ===============================
+   ABOUT US
+================================ */
+.about{display:flex; gap:50px; align-items:center; flex-wrap:wrap;}
+.about-img{flex:1; min-width:320px; height:450px; border:2px dashed var(--gold); display:flex; align-items:center; justify-content:center; color:var(--gold); font-weight:600; font-size:18px;}
+.about-img img{width:100%; height:100%; object-fit:cover;}
+.about-text{flex:1; min-width:300px; line-height:1.8; font-size:15px;}
+
+/* ===============================
+   COLLECTION / PRODUCTS
+================================ */
+.products{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:40px;}
+.product-card{overflow:hidden; cursor:pointer; border-radius:15px; background:var(--white); box-shadow:0 10px 25px rgba(0,0,0,0.08); transition:transform 0.3s; position:relative;}
+.product-card:hover{transform:translateY(-8px);}
+.product-card img{width:100%; height:350px; object-fit:cover; transition:0.6s;}
+.product-card:hover img{transform:scale(1.05);}
+.product-info{padding:20px; font-size:14px; line-height:1.6;}
+.product-info h3{font-family:'Playfair Display',serif; margin-bottom:10px; color:var(--black);}
+
+/* ===============================
+   LIGHTBOX
+================================ */
+.lightbox{position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95);
+ display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:0.4s; z-index:2000;}
+.lightbox img{max-width:90%; max-height:90%;}
+.lightbox.active{opacity:1; visibility:visible; cursor:pointer;}
+
+/* ===============================
+   TESTIMONIALS
+================================ */
+.testimonials{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:40px;}
+.testimonial{background:var(--white); padding:30px; text-align:center; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.08);}
+.testimonial img{width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:20px; border:3px solid var(--gold);}
+.star{color:gold; font-size:18px; margin-top:8px;}
+
+/* ===============================
+   CONTACT
+================================ */
+.contact{text-align:center;}
+.contact input, .contact textarea{width:100%; max-width:600px; padding:14px; margin:10px auto; display:block; border:1px solid #ddd; border-radius:6px;}
+.contact button{padding:14px 40px; background:var(--gold); color:var(--white); border:none; cursor:pointer; border-radius:6px; font-weight:600; transition:0.3s;}
+.contact button:hover{opacity:0.9; background-color: #111;}
+/* CONTACT FORM */
+.contact-form {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  max-width:700px;
+  margin:0 auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width:100%;
+  padding:16px 20px;
+  border:2px solid var(--gold);
+  border-radius:8px;
+  font-size:16px;
+  font-family:'Montserrat', sans-serif;
+  transition:0.3s;
+  background:var(--cream);
+  color:var(--black);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline:none;
+  border-color:var(--black);
+  box-shadow:0 0 10px rgba(198,167,94,0.4);
+}
+
+.contact-form button {
+  padding:16px 50px;
+  font-size:16px;
+  font-weight:600;
+  background:var(--gold);
+  color:var(--white);
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.3s;
+  font-family:'Playfair Display', serif;
+}
+
+.contact-form button:hover {
+  background:#b08f4b;
+  transform:translateY(-2px);
+  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* CONTACT TITLE */
+#contact .section-title h2 {
+  font-family:'Playfair Display', serif;
+  font-size:2.5rem;
+  color:var(--black);
+  margin-bottom:20px;
+  text-align:center;
+}
+
+/* CONTACT DESCRIPTION */
+#contact p {
+  font-family:'Montserrat', sans-serif;
+  font-size:16px;
+  color:var(--black);
+  line-height:1.8;
+}
+
+
+/* ===============================
+   WHATSAPP
+================================ */
+.whatsapp{position:fixed; bottom:25px; right:25px; background:#25D366; color:white; padding:15px 20px; border-radius:50px; text-decoration:none; font-weight:600;}
+
+/* ===============================
+   FOOTER
+================================ */
+footer{background:var(--black); color:white; text-align:center; padding:40px; margin-top:80px;}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media(max-width:768px){
+  .hero h1{font-size:2.5rem;}
+  header{padding:15px 6%;}
+  nav a{margin-left:15px;}
+  .product-card img{height:280px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo"><img src="logo.png" alt="Abbie Wear Logo">Abbie Wear</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#shop">Collection</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Abbie Wear</h1>
+    <p> <strong>Elevating Everyday Elegance: Where Timeless Luxury Meets Effortless Confidence, Unparalleled Style, and Bold Individuality; Crafted for people Who Celebrate Sophistication, Grace, and Distinctive Fashion Statements.</strong></p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section fade" id="about">
+  <div class="section-title"><h2>About Abbie Wear</h2></div>
+  <div class="about">
+    <div class="about-img"><img src="about.jpeg" alt=""></div>
+    <div class="about-text">
+      <strong>Abbie Wear </strong> is a premium fashion house based in Lagos Island, dedicated to creating timeless, elegant clothing. Each collection reflects a harmonious blend of sophistication, comfort, and bold style. We are committed to using only the finest fabrics and precise tailoring, ensuring every piece delivers unmatched quality and refinement. Our designs are inspired by confidence, individuality, and contemporary elegance, making every wearer feel empowered and stylish.<strong> At Abbie Wear</strong>, fashion is more than clothing it is a statement of personality, luxury, and self-expression.
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTION / PRODUCTS -->
+<section class="section fade" id="shop">
+  <div class="section-title"><h2>Our Exclusive Collection</h2></div>
+  <div class="products">
+
+    <!-- 9 PRODUCTS -->
+    <div class="product-card">
+      <img src="abbie 3.avif" alt="Maya Gown">
+      <div class="product-info">
+        <h3>Maya Gown</h3>
+        Soft flowing fabric that drapes beautifully,
+        Timeless silhouette for glamorous occasions.
+        Premium quality stitching and material
+        Perfect fit with elegant design details
+        A must-have for luxury evening wear.
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="abbie 2.jpg" alt="Chic Casual Dress">
+      <div class="product-info">
+        <h3>Chic Casual Dress</h3>
+        Stylish and versatile for daytime outings
+        Comfortable, breathable material
+        Designed for modern sophistication,
+        Easy-to-style for multiple occasions
+        Timeless piece with elegant charm.
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="ZB JEAN.jpg" alt="Luxury jean">
+      <div class="product-info">
+        <h3>Luxury jean</h3>
+        Tailored for professional elegance
+        Smooth fabric with refined texture.
+        Modern cut with timeless appeal
+        Perfect for formal or casual layering
+        A statement piece for confident style.
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="abbie 4.avif" alt="Sun Dress">
+      <div class="product-info">
+        <h3>Sun Dress</h3>
+        Premium Sun Dress with soft touch
+        Flowing lines for a graceful look.
+        Tailored for flattering fit
+        Elegant design for special occasions
+        Adds sophistication to your wardrobe.
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="ZB HOODIES.jpg" alt="Hoodies">
+      <div class="product-info">
+        <h3>Hoodies</h3>
+        Sleek modern design with luxury Hoodies
+        Comfortable and flattering fit.
+        Perfect for Cold events
+        Chic style with statement appeal
+        A bold addition to your collection.
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="ZB ROUND NECK.jpg" alt="Round Neck">
+      <div class="product-info">
+        <h3>Round Neck</h3>
+        Timeless outerwear for stylish layering
+        Premium material with perfect tailoring
+        Elegant and functional design
+        Versatile for many outfits
+        A wardrobe essential for sophistication.
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="shopping.webp" alt="Luxury Skirt Set">
+      <div class="product-info">
+        <h3>Luxury Skirt Set</h3>
+        Stylish combination for refined elegance
+        High-quality fabric with comfort
+        Designed for versatile styling
+        Adds confidence and poise
+        Signature Abbie Wear quality.
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="shopping2.webp" alt="Statement Evening Dress">
+      <div class="product-info">
+        <h3>Statement Evening Dress</h3>
+        Dramatic design with luxurious finish
+        Perfect for high-end events
+        Comfortable premium fabric
+        Elegant silhouette for confidence
+        A show-stopping addition to any wardrobe.
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="shopping3.webp" alt="Premium Cocktail Dress">
+      <div class="product-info">
+        <h3>Premium Cocktail Dress</h3>
+        Chic and elegant for evening parties
+        Tailored to accentuate every curve
+        Luxurious materials for premium feel
+        Sophisticated design with statement impact
+        Essential for your high-fashion collection.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section fade" id="testimonials">
+  <div class="section-title"><h2>Testimonial</h2></div>
+  <div class="testimonials">
+
+    <div class="testimonial">
+      <img src="iler.jpeg">
+      <div class="star">★★★★★
+        <p>Ilerioluwa</p>
+      </div>
+      <p> <strong>Abbie Wear exceeded my expectations. The outfits are elegant and perfectly tailored. I felt confident and stunning wearing them. The quality is unmatched. Highly recommend to anyone seeking luxury fashion.</strong></p>
+    </div>
+
+    <div class="testimonial">
+      <img src="anu.jpeg">
+      <div class="star">★★★★★
+        <p>Anuoluwapo</p>
+      </div>
+      <p> <strong>The elegance and attention to detail are incredible. Every piece makes me feel unique and sophisticated. Abbie Wear truly delivers a premium experience. The fabrics are luxurious. A must-have for fashion lovers. </strong></p>
+    </div>
+
+    <div class="testimonial">
+      <img src="IMG_1907.PNG">
+      <div class="star">★★★★★
+        <p>Esther</p>
+      </div>
+      <p> <strong>Luxury and comfort combined. I love the fit and design of every item. <strong>Abbie Wear <strong>provides timeless pieces for confident women. The service and quality are outstanding. I always receive compliments. </strong></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section fade" id="contact">
+  <h2 style="text-align: center;">Contact Abbie Wear</h2>
+  <p style="text-align: center;">Email: abbiewears33@gmail.com</p>
+  <p style="text-align: center;">Phone: 08166224115</p>
+  <p style="text-align: center;">Address: 12 Macarthy Street Off Race Course Obalende, Lagos Island</p><br>
+  </div>
+  <p style="text-align:center; max-width:700px; margin:0 auto 40px;">
+    Have a question, feedback, or custom request? Reach out to <strong>Abbie Wear </strong> and our team will respond promptly.  
+    We are committed to providing you with a luxurious shopping experience.
+  </p>
+
+  <form class="contact-form">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+</section>
+
+<a class="whatsapp" href="https://wa.me/2348166224115" target="_blank">Chat on WhatsApp</a>
+
+<footer>Abbie Wear © 2026 | Luxury Fashion House| Secured by LexzyWorld © 2026</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox"><img src="" id="lightbox-img"></div>
+
+<script>
+/* Fade-in */
+const faders=document.querySelectorAll(".fade");
+window.addEventListener("scroll",()=>{
+  faders.forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight-150){el.classList.add("active");}});
+});
+
+/* Lightbox */
+const lightbox=document.getElementById("lightbox");
+const lightboxImg=document.getElementById("lightbox-img");
+document.querySelectorAll(".product-card img").forEach(img=>{
+  img.addEventListener("click",()=>{lightbox.classList.add("active"); lightboxImg.src=img.src;});
+});
+lightbox.addEventListener("click",()=>{lightbox.classList.remove("active");});
+</script>
+</body>
+</html>
